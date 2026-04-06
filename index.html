@@ -3,84 +3,119 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Стрелочный — MVP Messenger v1.1</title>
-  <link rel="stylesheet" href="styles.css" />
+  <title>Стрелочный</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
+  <div class="bg-glow"></div>
+
   <div class="app-shell">
-    <!-- ===== AUTH ===== -->
+    <!-- AUTH -->
     <section id="authView" class="view active">
-      <header class="hero">
-        <div class="brand-row">
-          <div class="logo">→</div>
-          <h1>Стрелочный</h1>
-        </div>
-        <p class="tagline">
-          Мы не про красивые аватарки и смайлики. Мы — за быструю связь.
-        </p>
-      </header>
+      <main class="auth-wrap">
+        <div class="auth-brand">Стрелочный</div>
+        <form id="registerForm" class="auth-card" autocomplete="on">
+          <h1>Регистрация</h1>
 
-      <main class="auth-layout">
-        <article class="pitch card">
-          <h2>Почему стоит зарегистрироваться</h2>
-          <ul>
-            <li><strong>Быстро:</strong> фокус на сообщениях, а не развлечениях.</li>
-            <li><strong>Понятно:</strong> минималистичный интерфейс без перегруза.</li>
-            <li><strong>Практично:</strong> MVP для реальной ежедневной связи.</li>
-          </ul>
-        </article>
+          <label class="field">
+            <span>Имя</span>
+            <input id="nameInput" type="text" placeholder="Иван" required />
+          </label>
 
-        <article class="register card">
-          <h2>Регистрация</h2>
-          <form id="registerForm" class="form">
-            <label>Имя <input id="nameInput" type="text" required placeholder="Иван" /></label>
-            <label>Email <input id="emailInput" type="email" required placeholder="you@mail.com" /></label>
-            <label>Пароль <input id="passwordInput" type="password" minlength="6" required placeholder="******" /></label>
-            <button type="submit" class="btn primary">Зарегистрироваться</button>
-          </form>
-          <p class="fineprint">Регистрируясь, вы принимаете условия оферты и обработки данных.</p>
-        </article>
+          <label class="field">
+            <span>Телефон</span>
+            <input id="phoneInput" type="tel" inputmode="tel" placeholder="+7 900 123 45 67" required />
+          </label>
+
+          <label class="field">
+            <span>Email</span>
+            <input id="emailInput" type="email" placeholder="you@mail.com" required />
+          </label>
+
+          <label class="field">
+            <span>Пароль</span>
+            <input id="passwordInput" type="password" minlength="6" placeholder="••••••" required />
+          </label>
+
+          <button type="submit" class="btn btn-primary">Войти в приложение</button>
+        </form>
       </main>
     </section>
 
-    <!-- ===== CLIENT ===== -->
+    <!-- CLIENT -->
     <section id="clientView" class="view">
-      <aside class="left-panel card">
-        <div class="profile-box">
+      <aside class="sidebar">
+        <div class="profile card">
           <div class="avatar">→</div>
-          <div>
+          <div class="profile-meta">
             <p id="profileName" class="profile-name">Пользователь</p>
-            <p id="profileEmail" class="profile-email muted">email@example.com</p>
+            <p id="profilePhone" class="profile-sub">+7 ...</p>
+          </div>
+          <div class="profile-actions">
+            <button id="themeToggleBtn" class="btn btn-ghost btn-sm" title="Переключить тему">Тема</button>
+            <button id="logoutBtn" class="btn btn-ghost btn-sm">Выйти</button>
           </div>
         </div>
 
-        <div class="contacts-header">
-          <h3>Контакты</h3>
-          <button id="logoutBtn" class="btn ghost small">Выйти</button>
+        <div class="card add-contact">
+          <h3>Добавить контакт</h3>
+          <form id="addContactForm" class="add-form">
+            <input id="contactNameInput" type="text" placeholder="Имя контакта" required />
+            <input id="contactCodeInput" type="text" placeholder="Код/ссылка приглашения" required />
+            <button class="btn btn-primary" type="submit">Добавить</button>
+          </form>
+
+          <div id="addContactStatus" class="mini-status" aria-live="polite"></div>
+
+          <div class="invite-box">
+            <label>Ваш invite-код</label>
+            <div class="invite-row">
+              <input id="myInviteCode" type="text" readonly />
+              <button id="copyInviteBtn" type="button" class="btn btn-ghost btn-sm">Копировать</button>
+            </div>
+            <button id="genInviteLinkBtn" type="button" class="btn btn-ghost btn-sm">Сгенерировать ссылку</button>
+            <div id="inviteLinkStatus" class="mini-status" aria-live="polite"></div>
+          </div>
         </div>
 
-        <ul id="contactsList" class="contacts-list"></ul>
+        <div class="card contacts">
+          <div class="contacts-top">
+            <h3>Чаты</h3>
+            <input id="contactSearchInput" type="text" placeholder="Поиск" />
+          </div>
+          <ul id="contactsList" class="contacts-list"></ul>
+        </div>
       </aside>
 
-      <main class="chat-area card">
-        <header class="chat-header">
+      <main class="chat card">
+        <header class="chat-head">
           <div>
-            <h2 id="chatTitle">Диалог</h2>
-            <p class="muted" id="chatSubtitle">Быстрая связь</p>
+            <h2 id="chatTitle">Чат</h2>
+            <p id="chatSubtitle" class="sub">online</p>
           </div>
-          <input id="searchInput" class="search" type="text" placeholder="Поиск по сообщениям..." />
+          <input id="msgSearchInput" class="msg-search" type="text" placeholder="Поиск в чате" />
         </header>
 
-        <div id="chatMessages" class="chat-messages"></div>
+        <section id="chatSkeleton" class="chat-skeleton hidden" aria-hidden="true">
+          <div class="sk-row left"></div>
+          <div class="sk-row right"></div>
+          <div class="sk-row left w-70"></div>
+          <div class="sk-row right w-55"></div>
+        </section>
 
-        <form id="chatForm" class="chat-form">
-          <textarea id="chatInput" rows="1" placeholder="Введите сообщение..."></textarea>
-          <button type="submit" class="btn accent">Отправить</button>
+        <section id="chatMessages" class="chat-messages"></section>
+
+        <form id="chatForm" class="chat-input-row">
+          <textarea id="chatInput" rows="1" placeholder="Сообщение..."></textarea>
+          <button type="submit" class="btn btn-primary">Отправить</button>
         </form>
       </main>
     </section>
   </div>
 
-  <script src="app.js"></script>
+  <script src="./app.js"></script>
 </body>
 </html>
