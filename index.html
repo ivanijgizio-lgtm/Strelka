@@ -1,122 +1,86 @@
 <!doctype html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Стрелочный — быстрый мессенджер</title>
-    <meta
-      name="description"
-      content="Стрелочный — мессенджер для быстрой связи. Никакого лишнего, только скорость и надежная доставка сообщений."
-    />
-    <link rel="stylesheet" href="./styles.css" />
-  </head>
-  <body>
-    <header class="topbar">
-      <div class="container topbar__inner">
-        <div class="brand">
-          <span class="brand__logo">→</span>
-          <span class="brand__name">Стрелочный</span>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Стрелочный — MVP Messenger v1.1</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- ===== AUTH ===== -->
+    <section id="authView" class="view active">
+      <header class="hero">
+        <div class="brand-row">
+          <div class="logo">→</div>
+          <h1>Стрелочный</h1>
         </div>
-        <nav class="nav">
-          <a href="#features">Преимущества</a>
-          <a href="#how">Как работает</a>
-          <a href="#legal">Оферта</a>
-        </nav>
-      </div>
-    </header>
-
-    <main>
-      <section class="hero container">
-        <p class="hero__eyebrow">MVP · Быстрый мессенджер</p>
-        <h1>Сообщение за секунду. Ответ — когда важно.</h1>
-        <p class="hero__text">
-          «Стрелочный» — сервис для людей, которым нужна скорость связи, а не
-          перегруженный интерфейс.
+        <p class="tagline">
+          Мы не про красивые аватарки и смайлики. Мы — за быструю связь.
         </p>
-        <blockquote class="hero__quote">
-          Мы не про красивые аватарки, смайлики и видео с кружочками.  
-          Мы — за быструю связь.
-        </blockquote>
-        <div class="hero__actions">
-          <button id="ctaStart" class="btn btn--accent">Попробовать демо</button>
-          <a class="btn btn--ghost" href="#features">Узнать больше</a>
-        </div>
-      </section>
+      </header>
 
-      <section id="features" class="section section--alt">
-        <div class="container">
-          <h2>Основные преимущества</h2>
-          <div class="grid">
-            <article class="card">
-              <h3>Скорость доставки</h3>
-              <p>Приоритет — минимальная задержка отправки и получения сообщений.</p>
-            </article>
-            <article class="card">
-              <h3>Лаконичный интерфейс</h3>
-              <p>Ничего лишнего: понятная структура, быстрое действие в 1–2 клика.</p>
-            </article>
-            <article class="card">
-              <h3>Продуктовый фокус</h3>
-              <p>Одна ключевая функция: мгновенный текстовый обмен между клиентами.</p>
-            </article>
+      <main class="auth-layout">
+        <article class="pitch card">
+          <h2>Почему стоит зарегистрироваться</h2>
+          <ul>
+            <li><strong>Быстро:</strong> фокус на сообщениях, а не развлечениях.</li>
+            <li><strong>Понятно:</strong> минималистичный интерфейс без перегруза.</li>
+            <li><strong>Практично:</strong> MVP для реальной ежедневной связи.</li>
+          </ul>
+        </article>
+
+        <article class="register card">
+          <h2>Регистрация</h2>
+          <form id="registerForm" class="form">
+            <label>Имя <input id="nameInput" type="text" required placeholder="Иван" /></label>
+            <label>Email <input id="emailInput" type="email" required placeholder="you@mail.com" /></label>
+            <label>Пароль <input id="passwordInput" type="password" minlength="6" required placeholder="******" /></label>
+            <button type="submit" class="btn primary">Зарегистрироваться</button>
+          </form>
+          <p class="fineprint">Регистрируясь, вы принимаете условия оферты и обработки данных.</p>
+        </article>
+      </main>
+    </section>
+
+    <!-- ===== CLIENT ===== -->
+    <section id="clientView" class="view">
+      <aside class="left-panel card">
+        <div class="profile-box">
+          <div class="avatar">→</div>
+          <div>
+            <p id="profileName" class="profile-name">Пользователь</p>
+            <p id="profileEmail" class="profile-email muted">email@example.com</p>
           </div>
         </div>
-      </section>
 
-      <section id="how" class="section">
-        <div class="container">
-          <h2>Как это работает</h2>
-          <ol class="steps">
-            <li>Вход в аккаунт</li>
-            <li>Выбор контакта</li>
-            <li>Отправка сообщения</li>
-            <li>Подтверждение доставки</li>
-          </ol>
+        <div class="contacts-header">
+          <h3>Контакты</h3>
+          <button id="logoutBtn" class="btn ghost small">Выйти</button>
+        </div>
 
-          <div class="demo-box">
-            <label for="msgInput">Демо отправки:</label>
-            <div class="demo-row">
-              <input id="msgInput" type="text" placeholder="Введите сообщение..." />
-              <button id="sendBtn" class="btn btn--accent">Отправить</button>
-            </div>
-            <p id="demoStatus" class="demo-status">Ожидание сообщения…</p>
+        <ul id="contactsList" class="contacts-list"></ul>
+      </aside>
+
+      <main class="chat-area card">
+        <header class="chat-header">
+          <div>
+            <h2 id="chatTitle">Диалог</h2>
+            <p class="muted" id="chatSubtitle">Быстрая связь</p>
           </div>
-        </div>
-      </section>
+          <input id="searchInput" class="search" type="text" placeholder="Поиск по сообщениям..." />
+        </header>
 
-      <section id="legal" class="section section--alt">
-        <div class="container">
-          <h2>Публичная оферта и правовая информация</h2>
-          <p>
-            Ниже — базовый шаблон для MVP. Перед публикацией обязательно адаптируйте
-            текст под требования законодательства <strong>&lt;&lt;LOC_0001&gt;&gt;</strong> на 2026 год
-            с юристом.
-          </p>
+        <div id="chatMessages" class="chat-messages"></div>
 
-          <details>
-            <summary>Показать текст оферты (черновик)</summary>
-            <div class="legal-text">
-              <p><strong>1. Общие положения.</strong> Настоящий документ является предложением заключить договор на использование сервиса обмена сообщениями «Стрелочный».</p>
-              <p><strong>2. Предмет.</strong> Сервис предоставляет пользователю функциональность отправки/получения текстовых сообщений через веб-интерфейс.</p>
-              <p><strong>3. Регистрация и аккаунт.</strong> Пользователь обязуется предоставлять достоверные данные и обеспечивать сохранность доступа к аккаунту.</p>
-              <p><strong>4. Ограничения использования.</strong> Запрещено использование сервиса в противоправных целях, для спама, фишинга и распространения вредоносных материалов.</p>
-              <p><strong>5. Персональные данные.</strong> Обработка данных выполняется в объеме, необходимом для работы сервиса, в соответствии с применимым правом &lt;&lt;LOC_0001&gt;&gt;.</p>
-              <p><strong>6. Ответственность.</strong> Сервис предоставляется «как есть» на этапе MVP; оператор не несет ответственность за косвенные убытки, кроме случаев, прямо установленных законом.</p>
-              <p><strong>7. Изменения условий.</strong> Оператор вправе обновлять условия оферты; актуальная версия публикуется на сайте.</p>
-              <p><strong>8. Контакты оператора.</strong> Укажите юрлицо, адрес, регистрационные данные, email для обращений и реквизиты.</p>
-            </div>
-          </details>
-        </div>
-      </section>
-    </main>
+        <form id="chatForm" class="chat-form">
+          <textarea id="chatInput" rows="1" placeholder="Введите сообщение..."></textarea>
+          <button type="submit" class="btn accent">Отправить</button>
+        </form>
+      </main>
+    </section>
+  </div>
 
-    <footer class="footer">
-      <div class="container footer__inner">
-        <p>© 2026 Стрелочный (MVP)</p>
-        <a href="#legal">Правовая информация</a>
-      </div>
-    </footer>
-
-    <script src="./app.js"></script>
-  </body>
+  <script src="app.js"></script>
+</body>
 </html>
