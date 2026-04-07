@@ -1,0 +1,7 @@
+backend/
+├── src/
+│   ├── server.js          # создаём HTTP + WebSocket (ws или socket.io)
+│   ├── roomManager.js     # управление комнатами чата
+│   └── messageStore.js    # временное хранилище сообщений (потом заменишь на БД)
+├── package.json
+└── .env (PORT, SECRET)
